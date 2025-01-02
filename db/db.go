@@ -26,10 +26,10 @@ func createTable() {
 	createJobsTable := `
 	CREATE TABLE IF NOT EXISTS jobs (
 		id INTEGER PRIMARY KEY AUTOINCREMENT,
-		title TEXT NOT NULL,
-		salary TEXT NOT NULL,
-    location TEXT NOT NULL,
 		job_id INTEGER,
+		title TEXT NOT NULL,
+		location TEXT NOT NULL,
+		salary TEXT NOT NULL,
     description TEXT NOT NULL
 	)
 	`
