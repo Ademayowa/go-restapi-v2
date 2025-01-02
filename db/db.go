@@ -28,9 +28,9 @@ func createTable() {
 		id INTEGER PRIMARY KEY AUTOINCREMENT,
 		job_id INTEGER,
 		title TEXT NOT NULL,
+    description TEXT NOT NULL,
 		location TEXT NOT NULL,
-		salary TEXT NOT NULL,
-    description TEXT NOT NULL
+		salary TEXT NOT NULL
 	)
 	`
 	_, err := DB.Exec(createJobsTable)
