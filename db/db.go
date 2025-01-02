@@ -29,6 +29,7 @@ func createTable() {
 		title TEXT NOT NULL,
 		salary TEXT NOT NULL,
     location TEXT NOT NULL,
+		job_id INTEGER,
     description TEXT NOT NULL
 	)
 	`
