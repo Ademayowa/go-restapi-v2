@@ -1,18 +1,16 @@
 package main
 
 import (
-	"net/http"
-
+	"job-board/db"
+	"job-board/routes"
+	
 	"github.com/gin-gonic/gin"
 )
 
 func main() {
+	db.InitDB()
+
 	server := gin.Default()
-	server.GET("/jobs", getJobs)
-
+	routes.RegisterRoutes(server)
 	server.Run(":8080")
-}
-
-func getJobs(context *gin.Context) {
-	context.JSON(http.StatusOK, gin.H{"message": "Hello World!"})
 }

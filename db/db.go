@@ -26,11 +26,11 @@ func createTable() {
 	createJobsTable := `
 	CREATE TABLE IF NOT EXISTS jobs (
 		id INTEGER PRIMARY KEY AUTOINCREMENT,
-		job_id INTEGER,
 		title TEXT NOT NULL,
     description TEXT NOT NULL,
 		location TEXT NOT NULL,
-		salary TEXT NOT NULL
+		salary TEXT NOT NULL,
+		job_id INTEGER
 	)
 	`
 	_, err := DB.Exec(createJobsTable)

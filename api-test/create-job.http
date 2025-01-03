@@ -1,0 +1,10 @@
+POST http://localhost:8080/jobs
+content-type: application/json
+
+{
+  "title": "DevOps Engineer",
+  "description": "Experience with Terraform and Kubernetes",
+  "location": "Austria",
+  "salary": "70000"
+}
+
