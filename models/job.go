@@ -36,7 +36,7 @@ func (job Job) Save() error {
 	return err
 }
 
-// Gell all jobs
+// Get all jobs
 func GetAllJobs() ([]Job, error) {
 	query := "SELECT * FROM jobs"
 
