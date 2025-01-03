@@ -35,3 +35,29 @@ func (job Job) Save() error {
 
 	return err
 }
+
+// Gell all jobs
+func GetAllJobs() ([]Job, error) {
+	query := "SELECT * FROM jobs"
+
+	rows, err := db.DB.Query(query)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var jobs []Job
+	for rows.Next() {
+		var job Job
+
+		// Read all columns from database
+		err := rows.Scan(&job.ID, &job.Title, &job.Description, &job.Location, &job.Salary, &job.JobID)
+		if err != nil {
+			return nil, err
+		}
+
+		jobs = append(jobs, job)
+	}
+
+	return jobs, nil
+}
