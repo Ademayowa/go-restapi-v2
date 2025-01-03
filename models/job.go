@@ -11,7 +11,7 @@ type Job struct {
 	JobID       int64
 }
 
-// Save user data into DB
+// Save job into databse
 func (job Job) Save() error {
 	query := `
 		INSERT INTO jobs(title, description, location, salary, job_id)
