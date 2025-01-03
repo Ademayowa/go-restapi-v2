@@ -15,8 +15,7 @@ type Job struct {
 func (job Job) Save() error {
 	query := `
 		INSERT INTO jobs(title, description, location, salary, job_id)
-		VALUES(?, ?, ?, ?, ?)
-	`
+		VALUES(?, ?, ?, ?, ?)`
 
 	sqlStmt, err := db.DB.Prepare(query)
 	if err != nil {
