@@ -2,9 +2,9 @@ POST http://localhost:8080/jobs
 content-type: application/json
 
 {
-  "title": "Designer",
-  "description": "Experience with Figma and Adobe",
-  "location": "United Kingdom",
-  "salary": "50000"
+  "title": "Backend Engineer",
+  "description": "Experience with Go",
+  "location": "Poland",
+  "salary": "80000"
 }
 
