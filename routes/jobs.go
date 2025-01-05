@@ -3,6 +3,7 @@ package routes
 import (
 	"job-board/models"
 	"net/http"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 )
@@ -32,4 +33,22 @@ func getJobs(context *gin.Context) {
 	}
 
 	context.JSON(http.StatusOK, jobs)
+}
+
+// Fetch a single job
+func getJob(context *gin.Context) {
+	jobId, err := strconv.ParseInt(context.Param("id"), 10, 64)
+
+	if err != nil {
+		context.JSON(http.StatusBadRequest, gin.H{"message": "could not parse job id"})
+		return
+	}
+
+	job, err := models.GetJobByID(jobId)
+	if err != nil {
+		context.JSON(http.StatusInternalServerError, gin.H{"message": "could not fetch job"})
+		return
+	}
+
+	context.JSON(http.StatusOK, job)
 }
