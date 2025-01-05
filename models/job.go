@@ -61,3 +61,17 @@ func GetAllJobs() ([]Job, error) {
 
 	return jobs, nil
 }
+
+// Get a single job
+func GetJobByID(id int64) (*Job, error) {
+	query := "SELECT * FROM jobs WHERE id =?"
+	row := db.DB.QueryRow(query, id)
+
+	var job Job
+	err := row.Scan(&job.ID, &job.Title, &job.Description, &job.Location, &job.Salary, &job.JobID)
+	if err != nil {
+		return nil, err
+	}
+
+	return &job, nil
+}
