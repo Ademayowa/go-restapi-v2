@@ -67,7 +67,7 @@ func GetAllJobs() ([]Job, error) {
 			return nil, err
 		}
 
-		// Deserialize Duties JSON
+		// Deserialize Duties field from JSON to []string
 		err = json.Unmarshal([]byte(dutiesJSON), &job.Duties)
 		if err != nil {
 			return nil, err
