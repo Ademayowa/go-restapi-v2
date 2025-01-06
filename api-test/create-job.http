@@ -2,9 +2,9 @@ POST http://localhost:8080/jobs
 content-type: application/json
 
 {
-  "title": "Backend Engineer",
-  "description": "Experience with Go",
-  "location": "Poland",
+  "title": "Senior Frontend Engineer",
+  "description": "As a Senior Software Engineer, you will play a pivotal role in developing, maintaining and optimizing the software used by our customers, our staff and our healthcare partners.",
+  "location": "Germany",
   "salary": "80000"
 }
 

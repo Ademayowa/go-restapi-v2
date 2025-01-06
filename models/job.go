@@ -8,13 +8,13 @@ type Job struct {
 	Description string `binding:"required"`
 	Location    string `binding:"required"`
 	Salary      string `binding:"required"`
-	JobID       int64
+	Duties      string `binding:"required"`
 }
 
 // Save job into databse
 func (job Job) Save() error {
 	query := `
-		INSERT INTO jobs(title, description, location, salary, job_id)
+		INSERT INTO jobs(title, description, location, salary, duties)
 		VALUES(?, ?, ?, ?, ?)`
 
 	sqlStmt, err := db.DB.Prepare(query)
@@ -24,7 +24,7 @@ func (job Job) Save() error {
 	defer sqlStmt.Close()
 
 	// Execute the SQL statement
-	result, err := sqlStmt.Exec(job.Title, job.Description, job.Location, job.Salary, job.JobID)
+	result, err := sqlStmt.Exec(job.Title, job.Description, job.Location, job.Salary, job.Duties)
 	if err != nil {
 		return err
 	}
@@ -51,7 +51,7 @@ func GetAllJobs() ([]Job, error) {
 		var job Job
 
 		// Read all columns from database
-		err := rows.Scan(&job.ID, &job.Title, &job.Description, &job.Location, &job.Salary, &job.JobID)
+		err := rows.Scan(&job.ID, &job.Title, &job.Description, &job.Location, &job.Salary, &job.Duties)
 		if err != nil {
 			return nil, err
 		}
@@ -68,7 +68,7 @@ func GetJobByID(id int64) (*Job, error) {
 	row := db.DB.QueryRow(query, id)
 
 	var job Job
-	err := row.Scan(&job.ID, &job.Title, &job.Description, &job.Location, &job.Salary, &job.JobID)
+	err := row.Scan(&job.ID, &job.Title, &job.Description, &job.Location, &job.Salary, &job.Duties)
 	if err != nil {
 		return nil, err
 	}
