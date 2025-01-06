@@ -5,6 +5,13 @@ content-type: application/json
   "title": "Senior Frontend Engineer",
   "description": "As a Senior Software Engineer, you will play a pivotal role in developing, maintaining and optimizing the software used by our customers, our staff and our healthcare partners.",
   "location": "Germany",
-  "salary": "80000"
+  "salary": "80000",
+  "duties": [
+    "React Development: Design, develop, and maintain web applications using React.js, ensuring a responsive and intuitive user interface.",
+    "State Management: Implement state management solutions (e.g., Redux, Mobx) to manage complex application states efficiently.",
+    "Component Development: Create reusable UI components that can be easily integrated into different parts of the application.",
+    "RESTful API Integration: Collaborate with backend developers to consume RESTful APIs and ensure seamless data flow between the frontend and backend systems.",
+    "Performance Optimization: Identify and address performance bottlenecks and optimize frontend code for speed and efficiency."
+  ]
 }
 

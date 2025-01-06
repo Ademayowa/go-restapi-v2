@@ -1,14 +1,17 @@
 package models
 
-import "job-board/db"
+import (
+	"encoding/json"
+	"job-board/db"
+)
 
 type Job struct {
 	ID          int64
-	Title       string `binding:"required"`
-	Description string `binding:"required"`
-	Location    string `binding:"required"`
-	Salary      string `binding:"required"`
-	Duties      string `binding:"required"`
+	Title       string   `binding:"required"`
+	Description string   `binding:"required"`
+	Location    string   `binding:"required"`
+	Salary      string   `binding:"required"`
+	Duties      []string `binding:"required"`
 }
 
 // Save job into databse
@@ -23,8 +26,14 @@ func (job Job) Save() error {
 	}
 	defer sqlStmt.Close()
 
+	// Serialize the Duties field to JSON
+	dutiesJSON, err := json.Marshal(job.Duties)
+	if err != nil {
+		return err
+	}
+
 	// Execute the SQL statement
-	result, err := sqlStmt.Exec(job.Title, job.Description, job.Location, job.Salary, job.Duties)
+	result, err := sqlStmt.Exec(job.Title, job.Description, job.Location, job.Salary, string(dutiesJSON))
 	if err != nil {
 		return err
 	}
