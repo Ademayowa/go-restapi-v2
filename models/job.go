@@ -85,7 +85,16 @@ func GetJobByID(id int64) (*Job, error) {
 	row := db.DB.QueryRow(query, id)
 
 	var job Job
-	err := row.Scan(&job.ID, &job.Title, &job.Description, &job.Location, &job.Salary, &job.Duties)
+	var dutiesJSON string
+
+	// Scan the result into variables
+	err := row.Scan(&job.ID, &job.Title, &job.Description, &job.Location, &job.Salary, &dutiesJSON)
+	if err != nil {
+		return nil, err
+	}
+
+	// Deserialize Duties field from JSON to []string
+	err = json.Unmarshal([]byte(dutiesJSON), &job.Duties)
 	if err != nil {
 		return nil, err
 	}
