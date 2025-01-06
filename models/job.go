@@ -56,11 +56,19 @@ func GetAllJobs() ([]Job, error) {
 	defer rows.Close()
 
 	var jobs []Job
+
 	for rows.Next() {
 		var job Job
+		var dutiesJSON string
 
 		// Read all columns from database
-		err := rows.Scan(&job.ID, &job.Title, &job.Description, &job.Location, &job.Salary, &job.Duties)
+		err := rows.Scan(&job.ID, &job.Title, &job.Description, &job.Location, &job.Salary, &dutiesJSON)
+		if err != nil {
+			return nil, err
+		}
+
+		// Deserialize Duties JSON
+		err = json.Unmarshal([]byte(dutiesJSON), &job.Duties)
 		if err != nil {
 			return nil, err
 		}
