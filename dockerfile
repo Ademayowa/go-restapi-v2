@@ -14,6 +14,9 @@ COPY . .
 # Build the application
 RUN go build -o main .
 
+# Build the application with static linking
+RUN CGO_ENABLED=0 GOOS=linux go build -o main .
+
 # Use a minimal base image for production
 FROM alpine:latest
 
