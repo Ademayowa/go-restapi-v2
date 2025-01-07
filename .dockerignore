@@ -1,17 +1,14 @@
 # Binaries
-/app
-*.exe
+main
+
+# Dependency cache
+go.sum
+go.mod
 
 # IDE files
-.vscode/
-.idea/
+*.idea
+*.vscode
 
-# Git
-.git
-.gitignore
-
-# OS files
-*.DS_Store
-
-# Other files
-node_modules
+# Ignored OS files
+.DS_Store
+*.log
