@@ -1,0 +1,17 @@
+# Binaries
+/app
+*.exe
+
+# IDE files
+.vscode/
+.idea/
+
+# Git
+.git
+.gitignore
+
+# OS files
+*.DS_Store
+
+# Other files
+node_modules
