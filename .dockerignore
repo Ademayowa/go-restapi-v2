@@ -1,9 +1,6 @@
 # Binaries
 main
 
-# Dependency cache
-go.sum
-go.mod
 
 # IDE files
 *.idea
