@@ -1,40 +1,36 @@
-# Use the official Go image with the specified version
-FROM golang:1.23.2 AS builder
+# Use the official Go image as a builder
+FROM golang:1.23.2 as builder
 
-# Set environment variables
-ENV GO111MODULE=on \
-  CGO_ENABLED=1 \
-  GOOS=linux \
-  GOARCH=amd64
-
-# Set working directory
+# Set the working directory
 WORKDIR /app
 
-# Copy Go modules and install dependencies
+# Copy Go module files and download dependencies
 COPY go.mod go.sum ./
 RUN go mod download
 
 # Copy the rest of the application code
 COPY . .
 
-# Build the Go binary
-RUN go build -o app .
+# Build the application
+RUN go build -o main .
 
-# Use a minimal image for running the application
+# Use a minimal base image for production
 FROM alpine:latest
 
-# Install SQLite and CA certificates
-RUN apk --no-cache add sqlite-libs ca-certificates
+# Install SQLite
+RUN apk --no-cache add sqlite
 
-# Set working directory in the container
-WORKDIR /root/
+# Set the working directory
+WORKDIR /app
 
-# Copy the built binary and necessary files
-COPY --from=builder /app/app .
-COPY db/database.db ./db/database.db
+# Copy the SQLite database
+COPY --from=builder /app/job.db /app/job.db
 
-# Expose the port the app runs on
+# Copy the built application
+COPY --from=builder /app/main /app/main
+
+# Expose the application port
 EXPOSE 8080
 
-# Run the app
-CMD ["./app"]
+# Command to run the application
+CMD ["./main"]
