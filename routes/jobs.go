@@ -24,11 +24,15 @@ func createJob(context *gin.Context) {
 	context.JSON(http.StatusCreated, gin.H{"message": "job created", "job": job})
 }
 
-// Fetch all jobs
 func getJobs(context *gin.Context) {
-	jobs, err := models.GetAllJobs()
+	// Search jobs by title or location
+	filterTitle := context.Query("title")
+	filterLocation := context.Query("location")
+
+	jobs, err := models.GetAllJobs(filterTitle, filterLocation)
+
 	if err != nil {
-		context.JSON(http.StatusInternalServerError, gin.H{"message": "could not fetch jobs" + err.Error()})
+		context.JSON(http.StatusInternalServerError, gin.H{"message": "could not fetch jobs: " + err.Error()})
 		return
 	}
 

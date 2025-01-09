@@ -1,1 +1,1 @@
-GET http://localhost:8080/jobs
+GET https://go-restapi-v2.onrender.com/jobs

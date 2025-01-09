@@ -45,11 +45,22 @@ func (job Job) Save() error {
 	return err
 }
 
-// Get all jobs
-func GetAllJobs() ([]Job, error) {
-	query := "SELECT * FROM jobs"
+// Get all jobs with optional filtering by title or location
+func GetAllJobs(filterTitle, filterLocation string) ([]Job, error) {
+	query := "SELECT * FROM jobs WHERE 1=1"
+	args := []interface{}{}
 
-	rows, err := db.DB.Query(query)
+	if filterTitle != "" {
+		query += " AND title LIKE ?"
+		args = append(args, "%"+filterTitle+"%")
+	}
+
+	if filterLocation != "" {
+		query += " AND location LIKE ?"
+		args = append(args, "%"+filterLocation+"%")
+	}
+
+	rows, err := db.DB.Query(query, args...)
 	if err != nil {
 		return nil, err
 	}
@@ -61,13 +72,11 @@ func GetAllJobs() ([]Job, error) {
 		var job Job
 		var dutiesJSON string
 
-		// Read all columns from database
 		err := rows.Scan(&job.ID, &job.Title, &job.Description, &job.Location, &job.Salary, &dutiesJSON)
 		if err != nil {
 			return nil, err
 		}
 
-		// Deserialize Duties field from JSON to []string
 		err = json.Unmarshal([]byte(dutiesJSON), &job.Duties)
 		if err != nil {
 			return nil, err

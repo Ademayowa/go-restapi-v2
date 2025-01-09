@@ -1,21 +1,18 @@
-POST http://localhost:8080/jobs
+POST https://go-restapi-v2.onrender.com/jobs
 content-type: application/json
 
 {
-  "title": "Senior Golang Backend Engineer",
-  "description": "Salesforge is soon to become the number one platform of choice for sales organizations large and small. We have built a new category within the sales execution software space called programmatic sequencing where we match seller data (what is it that you sell) and buyer data across various sources to personalize every single email at any scale and in any language all powered by AI, led by a senior team of people that know what they're doing.",
+  "title": "Founding Go Engineer",
+  "description": "In collaboration with the Engineering and Product team, you will design and build our core infrastructure, distributed platform and API products. This role involves coding, setting development standards, and ensuring solutions are reliable, performant, scalable and secured.",
   "location": "Estonia",
-  "salary": "7,000",
+  "salary": "6,000",
   "duties": [
-    "At least 5 years of experience in backend development.",
-    "Excellent collaboration and communication skills.",
-    "Design and develop backend services and APIs ensuring high performance and scalability.",
-    "Collaborate to define and implement innovative features.",
-    "Architect robust backend systems for optimum efficiency.",
-    "Implement message queues like SQS, RabbitMQ or Kafka.",
-    "Knowledge of both relational (e.g., PostgreSQL, MySQL) and document-based databases (e.g., MongoDB.",
-    "Uphold best engineering practices including effective code reviews and detailed documentation",
-    "Experience with message queues, relational and document-based databases"
+    "System Design & Development: Design, develop and maintain scalable and high-performance distribution systems in production.",
+    "Hands-on Coding & Architecture: Take an active role in coding and architectural decisions, ensuring high technical standards and driving the success of a high-performing development team.",
+    "Backend Services & Integrations: Build and maintain backend services with a focus on performance, reliability, security, and scalability, ensuring smooth integration with other systems.",
+    "Cross-functional Collaboration: Work closely with product managers, engineers, and other key stakeholders to define, design, and deliver new features that align with both product and customer needs.",
+    "Code Quality & Best Practices: Write clean, maintainable, and efficient code while adhering to best practices and contributing to a high-quality codebase.",
+    "Observability & Monitoring: Develop and implement observability and monitoring solutions to ensure exceptional reliability and quality across products and integrations."
   ]
 }
 
