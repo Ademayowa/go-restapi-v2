@@ -1,1 +1,1 @@
-GET https://go-restapi-v2.onrender.com/jobs
+GET https://go-restapi-v2.onrender.com/jobs?title=developer

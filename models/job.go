@@ -3,6 +3,7 @@ package models
 import (
 	"encoding/json"
 	"job-board/db"
+	"strings"
 )
 
 type Job struct {
@@ -46,20 +47,67 @@ func (job Job) Save() error {
 }
 
 // Get all jobs with optional filtering by title or location
+// func GetAllJobs(filterTitle, filterLocation string) ([]Job, error) {
+// 	query := "SELECT * FROM jobs WHERE 1=1"
+// 	args := []interface{}{}
+
+// 	if filterTitle != "" {
+// 		query += " AND title LIKE ?"
+// 		args = append(args, "%"+filterTitle+"%")
+// 	}
+
+// 	if filterLocation != "" {
+// 		query += " AND location LIKE ?"
+// 		args = append(args, "%"+filterLocation+"%")
+// 	}
+
+// 	rows, err := db.DB.Query(query, args...)
+// 	if err != nil {
+// 		return nil, err
+// 	}
+// 	defer rows.Close()
+
+// 	var jobs []Job
+
+// 	for rows.Next() {
+// 		var job Job
+// 		var dutiesJSON string
+
+// 		err := rows.Scan(&job.ID, &job.Title, &job.Description, &job.Location, &job.Salary, &dutiesJSON)
+// 		if err != nil {
+// 			return nil, err
+// 		}
+
+// 		err = json.Unmarshal([]byte(dutiesJSON), &job.Duties)
+// 		if err != nil {
+// 			return nil, err
+// 		}
+
+// 		jobs = append(jobs, job)
+// 	}
+
+// 	return jobs, nil
+// }
+
+// Testing production job filtering
 func GetAllJobs(filterTitle, filterLocation string) ([]Job, error) {
-	query := "SELECT * FROM jobs WHERE 1=1"
+	// Base query
+	query := "SELECT id, title, description, location, salary, duties FROM jobs WHERE 1=1"
 	args := []interface{}{}
 
-	if filterTitle != "" {
-		query += " AND title LIKE ?"
-		args = append(args, "%"+filterTitle+"%")
+	// Add filtering by title
+	if strings.TrimSpace(filterTitle) != "" {
+		query += " AND LOWER(title) LIKE ?"
+		args = append(args, "%"+strings.ToLower(filterTitle)+"%")
 	}
 
-	if filterLocation != "" {
-		query += " AND location LIKE ?"
-		args = append(args, "%"+filterLocation+"%")
+	// Add filtering by location
+	if strings.TrimSpace(filterLocation) != "" {
+		query += " AND LOWER(location) LIKE ?"
+		args = append(args, "%"+strings.ToLower(filterLocation)+"%")
 	}
 
+	// Execute the query
 	rows, err := db.DB.Query(query, args...)
 	if err != nil {
 		return nil, err
@@ -68,6 +116,7 @@ func GetAllJobs(filterTitle, filterLocation string) ([]Job, error) {
 
 	var jobs []Job
 
+	// Parse rows into the Job struct
 	for rows.Next() {
 		var job Job
 		var dutiesJSON string
@@ -77,6 +126,7 @@ func GetAllJobs(filterTitle, filterLocation string) ([]Job, error) {
 			return nil, err
 		}
 
+		// Convert the duties JSON string to a slice of strings
 		err = json.Unmarshal([]byte(dutiesJSON), &job.Duties)
 		if err != nil {
 			return nil, err
