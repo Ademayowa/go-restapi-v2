@@ -1,1 +1,1 @@
-GET https://go-restapi-v2.onrender.com/jobs?title=developer
+GET https://go-restapi-prod.onrender.com/jobs?location=estonia

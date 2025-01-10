@@ -46,50 +46,7 @@ func (job Job) Save() error {
 	return err
 }
 
-// Get all jobs with optional filtering by title or location
-// func GetAllJobs(filterTitle, filterLocation string) ([]Job, error) {
-// 	query := "SELECT * FROM jobs WHERE 1=1"
-// 	args := []interface{}{}
-
-// 	if filterTitle != "" {
-// 		query += " AND title LIKE ?"
-// 		args = append(args, "%"+filterTitle+"%")
-// 	}
-
-// 	if filterLocation != "" {
-// 		query += " AND location LIKE ?"
-// 		args = append(args, "%"+filterLocation+"%")
-// 	}
-
-// 	rows, err := db.DB.Query(query, args...)
-// 	if err != nil {
-// 		return nil, err
-// 	}
-// 	defer rows.Close()
-
-// 	var jobs []Job
-
-// 	for rows.Next() {
-// 		var job Job
-// 		var dutiesJSON string
-
-// 		err := rows.Scan(&job.ID, &job.Title, &job.Description, &job.Location, &job.Salary, &dutiesJSON)
-// 		if err != nil {
-// 			return nil, err
-// 		}
-
-// 		err = json.Unmarshal([]byte(dutiesJSON), &job.Duties)
-// 		if err != nil {
-// 			return nil, err
-// 		}
-
-// 		jobs = append(jobs, job)
-// 	}
-
-// 	return jobs, nil
-// }
-
-// Testing production job filtering
+// Get all jobs (optional filtering by title or location)
 func GetAllJobs(filterTitle, filterLocation string) ([]Job, error) {
 	// Base query
 	query := "SELECT * FROM jobs WHERE 1=1"

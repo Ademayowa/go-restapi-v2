@@ -7,7 +7,6 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// Testing production job filtering
 func RegisterRoutes(server *gin.Engine) {
 	// Apply CORS middleware
 	server.Use(cors.New(cors.Config{
