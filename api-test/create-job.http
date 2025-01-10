@@ -2,17 +2,17 @@ POST https://go-restapi-prod.onrender.com/jobs
 content-type: application/json
 
 {
-  "title": "Founding Go Engineer",
-  "description": "In collaboration with the Engineering and Product team, you will design and build our core infrastructure, distributed platform and API products. This role involves coding, setting development standards, and ensuring solutions are reliable, performant, scalable and secured.",
-  "location": "Swdeen",
-  "salary": "6,000",
+  "title": "Lead Software Engineer",
+  "description": "Triple-A is a global payment institution headquartered in Singapore, with offices across the Americas, Europe, and the Middle East. We are a dynamic and passionate team building towards a more efficient global payment ecosystem. We are actively bridging the gaps in cross-border payments, between traditional & digital currencies, and Web2 and Web3.",
+  "location": "Singapore",
+  "salary": "60k",
   "duties": [
-    "System Design & Development: Design, develop and maintain scalable and high-performance distribution systems in production.",
-    "Hands-on Coding & Architecture: Take an active role in coding and architectural decisions, ensuring high technical standards and driving the success of a high-performing development team.",
-    "Backend Services & Integrations: Build and maintain backend services with a focus on performance, reliability, security, and scalability, ensuring smooth integration with other systems.",
-    "Cross-functional Collaboration: Work closely with product managers, engineers, and other key stakeholders to define, design, and deliver new features that align with both product and customer needs.",
-    "Code Quality & Best Practices: Write clean, maintainable, and efficient code while adhering to best practices and contributing to a high-quality codebase.",
-    "Observability & Monitoring: Develop and implement observability and monitoring solutions to ensure exceptional reliability and quality across products and integrations."
+    " Contribute to the architecture and implementation of scalable software solutions using Golang, ensuring high performance and security for both fiat and cryptocurrency transactions.",
+    "Participate in the development of real-time, distributed systems with NATS, contributing to our ability to process millions of transactions quickly and reliably.",
+    "Assist in managing and orchestrating containerized applications with Kubernetes, supporting optimal deployment, scaling, and management across our cloud infrastructure.",
+    "Engage in best practice development in software architecture, with a focus on system resilience and idempotency",
+    "Collaborate with the development team and cross-functional teams to support the definition, design, and delivery of new features, following industry standards and regulations for fiat and cryptocurrency transactions.",
+    "Contribute to a culture of innovation and continuous improvement within the team."
   ]
 }
 
