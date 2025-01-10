@@ -1,10 +1,10 @@
-POST https://go-restapi-v2.onrender.com/jobs
+POST https://go-restapi-prod.onrender.com/jobs
 content-type: application/json
 
 {
   "title": "Founding Go Engineer",
   "description": "In collaboration with the Engineering and Product team, you will design and build our core infrastructure, distributed platform and API products. This role involves coding, setting development standards, and ensuring solutions are reliable, performant, scalable and secured.",
-  "location": "Estonia",
+  "location": "Swdeen",
   "salary": "6,000",
   "duties": [
     "System Design & Development: Design, develop and maintain scalable and high-performance distribution systems in production.",
