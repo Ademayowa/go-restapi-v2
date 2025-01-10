@@ -92,7 +92,7 @@ func (job Job) Save() error {
 // Testing production job filtering
 func GetAllJobs(filterTitle, filterLocation string) ([]Job, error) {
 	// Base query
-	query := "SELECT id, title, description, location, salary, duties FROM jobs WHERE 1=1"
+	query := "SELECT * FROM jobs WHERE 1=1"
 	args := []interface{}{}
 
 	// Add filtering by title
