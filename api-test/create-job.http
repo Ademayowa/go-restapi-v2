@@ -1,4 +1,4 @@
-POST https://go-restapi-prod.onrender.com/jobs
+POST http://localhost:8080/jobs
 content-type: application/json
 
 {

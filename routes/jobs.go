@@ -58,3 +58,27 @@ func getJob(context *gin.Context) {
 
 	context.JSON(http.StatusOK, job)
 }
+
+// Delete a job
+func deleteJob(context *gin.Context) {
+	jobId, err := strconv.ParseInt(context.Param("id"), 10, 64)
+
+	if err != nil {
+		context.JSON(http.StatusBadRequest, gin.H{"message": "could not parse job id."})
+		return
+	}
+
+	job, err := models.GetJobByID(jobId)
+	if err != nil {
+		context.JSON(http.StatusInternalServerError, gin.H{"message": "could not fetch the event."})
+		return
+	}
+
+	err = job.Delete()
+	if err != nil {
+		context.JSON(http.StatusInternalServerError, gin.H{"message": "could not delete the job."})
+		return
+	}
+
+	context.JSON(http.StatusOK, gin.H{"message": "job deleted successfully!"})
+}
