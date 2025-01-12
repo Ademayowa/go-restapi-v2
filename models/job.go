@@ -6,13 +6,22 @@ import (
 	"strings"
 )
 
+// type Job struct {
+// 	ID          int64
+// 	Title       string   `binding:"required"`
+// 	Description string   `binding:"required"`
+// 	Location    string   `binding:"required"`
+// 	Salary      string   `binding:"required"`
+// 	Duties      []string `binding:"required"`
+// }
+
 type Job struct {
-	ID          int64
-	Title       string   `binding:"required"`
-	Description string   `binding:"required"`
-	Location    string   `binding:"required"`
-	Salary      string   `binding:"required"`
-	Duties      []string `binding:"required"`
+	ID          int64    `json:"id"`
+	Title       string   `json:"title" binding:"required"`
+	Description string   `json:"description" binding:"required"`
+	Location    string   `json:"location" binding:"required"`
+	Salary      string   `json:"salary" binding:"required"`
+	Duties      []string `json:"duties" binding:"required"`
 }
 
 // Save job into databse
