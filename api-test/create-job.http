@@ -2,19 +2,22 @@ POST http://localhost:8080/jobs
 content-type: application/json
 
 {
-  "title": "Lead Software Engineer",
-  "description": "Triple-A is a global payment institution headquartered in Singapore, with offices across the Americas, Europe, and the Middle East. We are a dynamic and passionate team building towards a more efficient global payment ecosystem. We are actively bridging the gaps in cross-border payments, between traditional & digital currencies, and Web2 and Web3.",
-  "location": "Singapore",
+  "title": "DevOps Engineer",
+  "description": "HarfangLab is a cybersecurity scale-up, and we have developed an Endpoint Detection and Response (EDR) software to detect and mitigate modern cyberattacks on a company's workstations and servers. Our algorithms detect abnormal behaviors and generate security alerts or block program execution.",
+  "location": "France",
   "salary": "60k",
   "duties": [
-    " Contribute to the architecture and implementation of scalable software solutions using Golang, ensuring high performance and security for both fiat and cryptocurrency transactions.",
-    "Participate in the development of real-time, distributed systems with NATS, contributing to our ability to process millions of transactions quickly and reliably.",
-    "Assist in managing and orchestrating containerized applications with Kubernetes, supporting optimal deployment, scaling, and management across our cloud infrastructure.",
-    "Engage in best practice development in software architecture, with a focus on system resilience and idempotency",
-    "Collaborate with the development team and cross-functional teams to support the definition, design, and delivery of new features, following industry standards and regulations for fiat and cryptocurrency transactions.",
-    "Contribute to a culture of innovation and continuous improvement within the team."
-  ]
+    "Build and Improve the Product: Add new features and enhancements to make it even better.",
+    "Optimize CI/CD Pipelines: Collaborate with developers to ensure the pipeline is as efficient as possible, using GitLab-CI, Kubernetes (K8s), Helm, KubeVirt, and a suite of complementary tools.",
+    "Automate Client On-Premise Installations: Help with initial deployments and develop automation to make subsequent setups seamless. We use Ansible, k3s, Helm, and some custom Python code.",
+    "Monitor and Maintain Internal Cloud and Infrastructure: Ensure smooth operation, fix issues, and automate repairs across our internal cloud stacks.",
+    "R&D for New Tools and Frameworks: Stay ahead of the curve by researching and experimenting with new technologies that could benefit our team."
+  ],
+  "url": "apply https://harfanglab-1666711819.teamtailor.com/jobs/5349829-devops-engineer"
 }
+
+
+
 
 
 

@@ -30,7 +30,8 @@ func createTable() {
     description TEXT NOT NULL,
 		location TEXT NOT NULL,
 		salary TEXT NOT NULL,
-		duties TEXT NOT NULL
+		duties TEXT NOT NULL,
+		url TEXT NOT NULL
 	)
 	`
 	_, err := DB.Exec(createJobsTable)

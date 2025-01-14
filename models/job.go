@@ -22,13 +22,14 @@ type Job struct {
 	Location    string   `json:"location" binding:"required"`
 	Salary      string   `json:"salary" binding:"required"`
 	Duties      []string `json:"duties" binding:"required"`
+	Url         string   `json:"url"`
 }
 
 // Save job into databse
 func (job Job) Save() error {
 	query := `
-		INSERT INTO jobs(title, description, location, salary, duties)
-		VALUES(?, ?, ?, ?, ?)`
+		INSERT INTO jobs(title, description, location, salary, duties, url)
+		VALUES(?, ?, ?, ?, ?, ?)`
 
 	sqlStmt, err := db.DB.Prepare(query)
 	if err != nil {
@@ -43,7 +44,7 @@ func (job Job) Save() error {
 	}
 
 	// Execute the SQL statement
-	result, err := sqlStmt.Exec(job.Title, job.Description, job.Location, job.Salary, string(dutiesJSON))
+	result, err := sqlStmt.Exec(job.Title, job.Description, job.Location, job.Salary, string(dutiesJSON), job.Url)
 	if err != nil {
 		return err
 	}
@@ -87,7 +88,7 @@ func GetAllJobs(filterTitle, filterLocation string) ([]Job, error) {
 		var job Job
 		var dutiesJSON string
 
-		err := rows.Scan(&job.ID, &job.Title, &job.Description, &job.Location, &job.Salary, &dutiesJSON)
+		err := rows.Scan(&job.ID, &job.Title, &job.Description, &job.Location, &job.Salary, &dutiesJSON, &job.Url)
 		if err != nil {
 			return nil, err
 		}
@@ -113,7 +114,7 @@ func GetJobByID(id int64) (*Job, error) {
 	var dutiesJSON string
 
 	// Scan the result into variables
-	err := row.Scan(&job.ID, &job.Title, &job.Description, &job.Location, &job.Salary, &dutiesJSON)
+	err := row.Scan(&job.ID, &job.Title, &job.Description, &job.Location, &job.Salary, &dutiesJSON, &job.Url)
 	if err != nil {
 		return nil, err
 	}
