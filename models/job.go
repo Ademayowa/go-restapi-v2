@@ -20,7 +20,8 @@ type Job struct {
 func (job Job) Save() error {
 	query := `
 		INSERT INTO jobs(title, description, location, salary, duties, url)
-		VALUES(?, ?, ?, ?, ?, ?)`
+		VALUES(?, ?, ?, ?, ?, ?)
+	`
 
 	sqlStmt, err := db.DB.Prepare(query)
 	if err != nil {
@@ -118,6 +119,7 @@ func GetJobByID(id int64) (*Job, error) {
 	return &job, nil
 }
 
+// Delete a job
 func (job Job) Delete() error {
 	query := "DELETE FROM jobs WHERE id = ?"
 	stmt, err := db.DB.Prepare(query)
@@ -128,6 +130,25 @@ func (job Job) Delete() error {
 	defer stmt.Close()
 
 	_, err = stmt.Exec(job.ID)
+
+	return err
+}
+
+func UpdateJobByID(id int64, updatedJob Job, dutiesJSON string) error {
+	query := `
+		UPDATE jobs
+		SET title = ?, description = ?, location = ?, salary = ?, duties = ?, url = ?
+		WHERE id = ?
+	`
+	_, err := db.DB.Exec(query,
+		updatedJob.Title,
+		updatedJob.Description,
+		updatedJob.Location,
+		updatedJob.Salary,
+		dutiesJSON,
+		updatedJob.Url,
+		id,
+	)
 
 	return err
 }

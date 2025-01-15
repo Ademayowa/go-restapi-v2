@@ -1,1 +1,21 @@
-GET http://localhost:8080/jobs
+GET http://localhost:8080/jobs/2
+content-type: application/json
+
+{
+  "title": "Site Reliability Engineer",
+  "description": "The SRE role involves close partnership with our development teams to design and build infrastructure that supports our goal: to be the best platform for authoring, processing, and distributing content worldwide in real time. The role addresses the security, stability, and performance needs of our platform that our customers have come to expect.",
+  "location": "Europe",
+  "salary": "180k",
+  "duties": [
+    "Experience with SRE/DevOps tools, processes, and culture.",
+    "5+ years of experience as part of an SRE on-call rotation.",
+    "Analytical approach to designing, diagnosing, and optimizing infrastructure.",
+    "Experience with managing scalable, highly available, cloud-based applications.",
+    "Experience with managing and optimizing databases. We use PostgreSQL.",
+    "Experience with infrastructure as code. We use Terraform.",
+    "Experience programming. We use Python, Go, Typescript.",
+    "Experience building CI/CD pipelines.",
+    "Experience with an observability stack like Prometheus." 
+  ],
+  "url": "https://jobs.ashbyhq.com/sanity/741b1bbf-4444-4e10-9eca-a5e489b6cdfd"
+}
