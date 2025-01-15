@@ -6,15 +6,6 @@ import (
 	"strings"
 )
 
-// type Job struct {
-// 	ID          int64
-// 	Title       string   `binding:"required"`
-// 	Description string   `binding:"required"`
-// 	Location    string   `binding:"required"`
-// 	Salary      string   `binding:"required"`
-// 	Duties      []string `binding:"required"`
-// }
-
 type Job struct {
 	ID          int64    `json:"id"`
 	Title       string   `json:"title" binding:"required"`
@@ -58,7 +49,6 @@ func (job Job) Save() error {
 
 // Get all jobs (optional filtering by title or location)
 func GetAllJobs(filterTitle, filterLocation string) ([]Job, error) {
-	// Base query
 	query := "SELECT * FROM jobs WHERE 1=1"
 	args := []interface{}{}
 
@@ -93,7 +83,7 @@ func GetAllJobs(filterTitle, filterLocation string) ([]Job, error) {
 			return nil, err
 		}
 
-		// Convert the duties JSON string to a slice of strings
+		// Convert duties JSON string to a slice of strings
 		err = json.Unmarshal([]byte(dutiesJSON), &job.Duties)
 		if err != nil {
 			return nil, err
@@ -138,5 +128,6 @@ func (job Job) Delete() error {
 	defer stmt.Close()
 
 	_, err = stmt.Exec(job.ID)
+
 	return err
 }

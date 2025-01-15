@@ -10,7 +10,6 @@ import (
 
 // Create job
 func createJob(context *gin.Context) {
-	// Extract job data
 	var job models.Job
 
 	err := context.ShouldBindJSON(&job)
@@ -70,13 +69,13 @@ func deleteJob(context *gin.Context) {
 
 	job, err := models.GetJobByID(jobId)
 	if err != nil {
-		context.JSON(http.StatusInternalServerError, gin.H{"message": "could not fetch the job"})
+		context.JSON(http.StatusInternalServerError, gin.H{"message": "could not fetch job"})
 		return
 	}
 
 	err = job.Delete()
 	if err != nil {
-		context.JSON(http.StatusInternalServerError, gin.H{"message": "could not delete the job"})
+		context.JSON(http.StatusInternalServerError, gin.H{"message": "could not delete job"})
 		return
 	}
 
