@@ -1,4 +1,4 @@
-## Building REST APIs With Go, SQLite, and Gin</h2>
+# Building REST APIs With Go, SQLite, and Gin</h2>
 
 ## <a name="tech-stack">⚙️ Technologies</a>
 
