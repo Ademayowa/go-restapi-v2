@@ -88,7 +88,7 @@ func updateJob(context *gin.Context) {
 	// Parse job ID from the URL
 	jobId, err := strconv.ParseInt(context.Param("id"), 10, 64)
 	if err != nil {
-		context.JSON(http.StatusBadRequest, gin.H{"message": "invalid job id"})
+		context.JSON(http.StatusBadRequest, gin.H{"message": "invalid job id."})
 		return
 	}
 
