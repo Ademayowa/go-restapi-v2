@@ -2,19 +2,19 @@ POST http://localhost:8080/jobs
 content-type: application/json
 
 {
-  "title": "Founding Software Engineer",
-  "description": "In collaboration with the Engineering and Product team, you will design and build our core infrastructure, distributed platform and API products. This role involves coding, setting development standards, and ensuring solutions are reliable, performant, scalable and secured.",
-  "location": "Sweden",
-  "salary": "80k",
+  "title": "Software Engineer III (Go)",
+  "description": "At PrizePicks, we are the fastest growing sports company in North America, as recognized by Inc. 5000. As the leading platform for Daily Fantasy Sports, we cover a diverse range of sports leagues, including the NFL, NBA, and Esports titles like League of Legends and Counter-Strike. Our team of over 450 employees thrives in an inclusive culture that values individuals from diverse backgrounds, regardless of their level of sports fandom.",
+  "location": "United States",
+  "salary": "400k",
   "duties": [
-    "System Design & Development: Design, develop and maintain scalable and high-performance distribution systems in production.",
-    "Hands-on Coding & Architecture: Take an active role in coding and architectural decisions, ensuring high technical standards and driving the success of a high-performing development team.",
-    "Backend Services & Integrations: Build and maintain backend services with a focus on performance, reliability, security, and scalability, ensuring smooth integration with other systems.",
-    "Cross-functional Collaboration: Work closely with product managers, engineers, and other key stakeholders to define, design, and deliver new features that align with both product and customer needs.",
-    "Code Quality & Best Practices: Write clean, maintainable, and efficient code while adhering to best practices and contributing to a high-quality codebase.",
-    "Observability & Monitoring: Develop and implement observability and monitoring solutions to ensure exceptional reliability and quality across products and integrations."
+    "Investigates and analyzes feasibility and program requirements, and develops programming specifications.",
+    "Plans the full range of programming actions to produce several interrelated but different products from numerous and diverse data elements which are usually from different sources.",
+    "Develops, modifies, redesign and maintains complex software.",
+    "Designs and implements the interrelations of files and records within programs which will effectively fit into the overall design of the project.",
+    "Investigating the feasibility of alternate programming design approaches to determine the best balanced solution.",
+    "Works independently under overall objectives and direction, apprising the supervisor about progress and unusual complications." 
   ],
-  "url": "https://jobs.ashbyhq.com/cerve/60f32f68-9c06-4c32-b65d-78070bf86ab7"
+  "url": "https://www.prizepicks.com/position?gh_jid=6316902003"
 }
 
 
