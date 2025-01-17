@@ -10,7 +10,7 @@ import (
 func RegisterRoutes(server *gin.Engine) {
 	// Apply CORS middleware
 	server.Use(cors.New(cors.Config{
-		AllowOrigins:     []string{"https://job-board-v3.vercel.app"}, // Allow frontend domain
+		AllowOrigins:     []string{"https://job-board-v3.vercel.app", "http://localhost:8080"}, // Allow frontend domain
 		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
 		AllowHeaders:     []string{"Origin", "Content-Type", "Authorization"},
 		ExposeHeaders:    []string{"Content-Length"},
