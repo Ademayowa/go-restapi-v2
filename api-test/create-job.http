@@ -2,21 +2,21 @@ POST http://localhost:8080/jobs
 content-type: application/json
 
 {
-  "title": "Senior Golang Developer",
-  "description": "Cargoplot is an ambitious and promising startup in the logistics sector. We are building an innovative platform that connects international traders with the best freight forwarders to execute their transport. Cargoplot empowers its users to collaborate with their customers or suppliers across the globe without any barriers. We are a small company, and we value diversity of culture and thinking.",
-  "location": "Netherlands",
+  "title": "Founding Software Engineer",
+  "description": "In collaboration with the Engineering and Product team, you will design and build our core infrastructure, distributed platform and API products. This role involves coding, setting development standards, and ensuring solutions are reliable, performant, scalable and secured.",
+  "location": "Sweden",
   "salary": "80k",
   "duties": [
-    "Experience with relational databases (Postgres, MySQL) and/or message queues (Kafka, NATS, RabbitMQ).",
-    "Experience with Git or other VCS.",
-    "Apache Kafka as an event-based streaming platform.",
-    "Docker & Kubernetes in a cloud environment.",
-    "Docker & Kubernetes in a cloud environment.",
-    "Implement message queues like SQS, RabbitMQ or Kafka.",
-    "Your primary mission is to further develop our back-end services that use events for asynchronous interaction and connect to our front-end through REST APIs."
+    "System Design & Development: Design, develop and maintain scalable and high-performance distribution systems in production.",
+    "Hands-on Coding & Architecture: Take an active role in coding and architectural decisions, ensuring high technical standards and driving the success of a high-performing development team.",
+    "Backend Services & Integrations: Build and maintain backend services with a focus on performance, reliability, security, and scalability, ensuring smooth integration with other systems.",
+    "Cross-functional Collaboration: Work closely with product managers, engineers, and other key stakeholders to define, design, and deliver new features that align with both product and customer needs.",
+    "Code Quality & Best Practices: Write clean, maintainable, and efficient code while adhering to best practices and contributing to a high-quality codebase.",
+    "Observability & Monitoring: Develop and implement observability and monitoring solutions to ensure exceptional reliability and quality across products and integrations."
   ],
-  "url": "https://www.cargoplot.com/job-openings/golang-developer"
+  "url": "https://jobs.ashbyhq.com/cerve/60f32f68-9c06-4c32-b65d-78070bf86ab7"
 }
+
 
 
 
