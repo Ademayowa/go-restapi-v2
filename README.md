@@ -1,6 +1,5 @@
 <div>
- <br />
-   <h3>Building REST APIs With Go, SQLite, and Gin</h3>
+   <h2>Building REST APIs With Go, SQLite, and Gin</h2>
 </div>
 
 ## <a name="tech-stack">⚙️ Technologies</a>
