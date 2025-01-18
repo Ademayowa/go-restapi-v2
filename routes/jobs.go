@@ -3,6 +3,7 @@ package routes
 import (
 	"encoding/json"
 	"job-board/models"
+	"math"
 	"net/http"
 	"strconv"
 
@@ -30,15 +31,37 @@ func getJobs(context *gin.Context) {
 	filterTitle := context.Query("title")
 	filterLocation := context.Query("location")
 
-	// Call the model to fetch jobs with filters
-	jobs, err := models.GetAllJobs(filterTitle, filterLocation)
+	// Extract pagination parameters with defaults
+	page, err := strconv.Atoi(context.DefaultQuery("page", "1"))
+	if err != nil || page < 1 {
+		page = 1 // Default to page 1 if invalid
+	}
+
+	limit, err := strconv.Atoi(context.DefaultQuery("limit", "6"))
+	if err != nil || limit < 1 {
+		limit = 6 // Default to 6 items per page if invalid
+	}
+
+	// Fetch jobs with filters and pagination
+	jobs, total, err := models.GetAllJobs(filterTitle, filterLocation, page, limit)
 	if err != nil {
 		context.JSON(http.StatusInternalServerError, gin.H{"message": "could not fetch jobs: " + err.Error()})
 		return
 	}
 
-	// Return the filtered jobs
-	context.JSON(http.StatusOK, jobs)
+	// Calculate total pages
+	totalPages := int(math.Ceil(float64(total) / float64(limit)))
+
+	// Return jobs with metadata
+	context.JSON(http.StatusOK, gin.H{
+		"data": jobs,
+		"meta": gin.H{
+			"current_page": page,
+			"per_page":     limit,
+			"total":        total,
+			"total_pages":  totalPages,
+		},
+	})
 }
 
 // Fetch a single job

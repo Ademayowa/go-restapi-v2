@@ -49,7 +49,8 @@ func (job Job) Save() error {
 }
 
 // Get all jobs (optional filtering by title or location)
-func GetAllJobs(filterTitle, filterLocation string) ([]Job, error) {
+func GetAllJobs(filterTitle, filterLocation string, page, limit int) ([]Job, int, error) {
+	// Base query
 	query := "SELECT * FROM jobs WHERE 1=1"
 	args := []interface{}{}
 
@@ -65,10 +66,22 @@ func GetAllJobs(filterTitle, filterLocation string) ([]Job, error) {
 		args = append(args, "%"+strings.ToLower(filterLocation)+"%")
 	}
 
-	// Execute the query
+	// Count total jobs before pagination
+	countQuery := "SELECT COUNT(*) FROM (" + query + ") AS count_query"
+	var total int
+	if err := db.DB.QueryRow(countQuery, args...).Scan(&total); err != nil {
+		return nil, 0, err
+	}
+
+	// Add pagination
+	offset := (page - 1) * limit
+	query += " LIMIT ? OFFSET ?"
+	args = append(args, limit, offset)
+
+	// Fetch paginated jobs
 	rows, err := db.DB.Query(query, args...)
 	if err != nil {
-		return nil, err
+		return nil, 0, err
 	}
 	defer rows.Close()
 
@@ -79,21 +92,27 @@ func GetAllJobs(filterTitle, filterLocation string) ([]Job, error) {
 		var job Job
 		var dutiesJSON string
 
-		err := rows.Scan(&job.ID, &job.Title, &job.Description, &job.Location, &job.Salary, &dutiesJSON, &job.Url)
-		if err != nil {
-			return nil, err
+		if err := rows.Scan(
+			&job.ID,
+			&job.Title,
+			&job.Description,
+			&job.Location,
+			&job.Salary,
+			&dutiesJSON,
+			&job.Url,
+		); err != nil {
+			return nil, 0, err
 		}
 
 		// Convert duties JSON string to a slice of strings
-		err = json.Unmarshal([]byte(dutiesJSON), &job.Duties)
-		if err != nil {
-			return nil, err
+		if err := json.Unmarshal([]byte(dutiesJSON), &job.Duties); err != nil {
+			return nil, 0, err
 		}
 
 		jobs = append(jobs, job)
 	}
 
-	return jobs, nil
+	return jobs, total, nil
 }
 
 // Get a single job
