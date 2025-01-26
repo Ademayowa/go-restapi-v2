@@ -1,6 +1,6 @@
 # Building REST APIs With Go, SQLite, and Gin</h2>
 
-## <a name="tech-stack">⚙️ Tech stack</a>
+## <a name="tech-stack">⚙️ Tech Stack</a>
 
 - Go
 - [SQLite](https://github.com/glebarez/go-sqlite)
