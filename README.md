@@ -1,6 +1,6 @@
 # Building REST APIs With Go, SQLite, and Gin</h2>
 
-## <a name="tech-stack">⚙️ Technologies</a>
+## <a name="tech-stack">⚙️ Tech stack</a>
 
 - Go
 - [SQLite](https://github.com/glebarez/go-sqlite)
@@ -37,4 +37,4 @@ go mod tidy
 go run main.go
 ```
 
-Open [http://localhost:8080/jobs](http://localhost:8080/jobs) in your browser to view the project.
+Open [http://localhost:8080/jobs](http://localhost:8080/jobs) in your browser to view all jobs.
