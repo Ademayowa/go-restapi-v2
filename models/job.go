@@ -69,6 +69,7 @@ func GetAllJobs(filterTitle, filterLocation string, page, limit int) ([]Job, int
 	// Count total jobs before pagination
 	countQuery := "SELECT COUNT(*) FROM (" + query + ") AS count_query"
 	var total int
+
 	if err := db.DB.QueryRow(countQuery, args...).Scan(&total); err != nil {
 		return nil, 0, err
 	}
