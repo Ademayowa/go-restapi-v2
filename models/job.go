@@ -48,29 +48,29 @@ func (job Job) Save() error {
 	return err
 }
 
-// Get all jobs (optional filtering by title or location)
-func GetAllJobs(filterTitle, filterLocation string, page, limit int) ([]Job, int, error) {
-	// Base query
+// Get all jobs (optional filtering by job title)
+func GetAllJobs(filterTitle string, page, limit int) ([]Job, int, error) {
 	query := "SELECT * FROM jobs WHERE 1=1"
 	args := []interface{}{}
 
-	// Add filtering by title
+	// Filter jobs by the title
 	if strings.TrimSpace(filterTitle) != "" {
 		query += " AND LOWER(title) LIKE ?"
 		args = append(args, "%"+strings.ToLower(filterTitle)+"%")
 	}
 
 	// Add filtering by location
-	if strings.TrimSpace(filterLocation) != "" {
-		query += " AND LOWER(location) LIKE ?"
-		args = append(args, "%"+strings.ToLower(filterLocation)+"%")
-	}
+	// if strings.TrimSpace(filterLocation) != "" {
+	// 	query += " AND LOWER(location) LIKE ?"
+	// 	args = append(args, "%"+strings.ToLower(filterLocation)+"%")
+	// }
 
-	// Count total jobs before pagination
+	// Count total jobs that matches the filter from the database
 	countQuery := "SELECT COUNT(*) FROM (" + query + ") AS count_query"
-	var total int
 
-	if err := db.DB.QueryRow(countQuery, args...).Scan(&total); err != nil {
+	var total int
+	err := db.DB.QueryRow(countQuery, args...).Scan(&total)
+	if err != nil {
 		return nil, 0, err
 	}
 
@@ -93,7 +93,7 @@ func GetAllJobs(filterTitle, filterLocation string, page, limit int) ([]Job, int
 		var job Job
 		var dutiesJSON string
 
-		if err := rows.Scan(
+		err := rows.Scan(
 			&job.ID,
 			&job.Title,
 			&job.Description,
@@ -101,11 +101,12 @@ func GetAllJobs(filterTitle, filterLocation string, page, limit int) ([]Job, int
 			&job.Salary,
 			&dutiesJSON,
 			&job.Url,
-		); err != nil {
+		)
+		if err != nil {
 			return nil, 0, err
 		}
 
-		// Convert duties JSON string to a slice of strings
+		// Convert Duties field to []string
 		if err := json.Unmarshal([]byte(dutiesJSON), &job.Duties); err != nil {
 			return nil, 0, err
 		}

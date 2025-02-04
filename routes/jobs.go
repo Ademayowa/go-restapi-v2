@@ -27,9 +27,8 @@ func createJob(context *gin.Context) {
 
 // Fetch all jobs
 func getJobs(context *gin.Context) {
-	// Extract query parameters
-	filterTitle := context.Query("title")
-	filterLocation := context.Query("location")
+	// Extract job query parameter from the URL
+	filterTitle := context.Query("query")
 
 	// Extract pagination parameters with defaults
 	page, err := strconv.Atoi(context.DefaultQuery("page", "1"))
@@ -42,8 +41,8 @@ func getJobs(context *gin.Context) {
 		limit = 6 // Default to 6 items per page if invalid
 	}
 
-	// Fetch jobs with filters and pagination
-	jobs, total, err := models.GetAllJobs(filterTitle, filterLocation, page, limit)
+	// Get all jobs with filters and pagination
+	jobs, total, err := models.GetAllJobs(filterTitle, page, limit)
 	if err != nil {
 		context.JSON(http.StatusInternalServerError, gin.H{"message": "could not fetch jobs: " + err.Error()})
 		return
@@ -52,10 +51,10 @@ func getJobs(context *gin.Context) {
 	// Calculate total pages
 	totalPages := int(math.Ceil(float64(total) / float64(limit)))
 
-	// Return jobs with metadata
+	// Return jobs with the metadata(all jobs in the database & pagination)
 	context.JSON(http.StatusOK, gin.H{
 		"data": jobs,
-		"meta": gin.H{
+		"metadata": gin.H{
 			"current_page": page,
 			"per_page":     limit,
 			"total":        total,
