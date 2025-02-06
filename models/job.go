@@ -59,12 +59,6 @@ func GetAllJobs(filterTitle string, page, limit int) ([]Job, int, error) {
 		args = append(args, "%"+strings.ToLower(filterTitle)+"%")
 	}
 
-	// Add filtering by location
-	// if strings.TrimSpace(filterLocation) != "" {
-	// 	query += " AND LOWER(location) LIKE ?"
-	// 	args = append(args, "%"+strings.ToLower(filterLocation)+"%")
-	// }
-
 	// Count total jobs that matches the filter from the database
 	countQuery := "SELECT COUNT(*) FROM (" + query + ") AS count_query"
 
