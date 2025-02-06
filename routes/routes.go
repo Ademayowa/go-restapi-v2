@@ -22,6 +22,6 @@ func RegisterRoutes(server *gin.Engine) {
 	server.GET("/jobs", getJobs)
 	server.POST("/jobs", createJob)
 	server.GET("/jobs/:id", getJob)
-	// server.DELETE("/jobs/:id", deleteJob)
+	server.DELETE("/jobs/:id", deleteJob)
 	server.PUT("/jobs/:id", updateJob)
 }

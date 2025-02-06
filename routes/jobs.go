@@ -10,17 +10,16 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// Create job
+// Create a job
 func createJob(context *gin.Context) {
 	var job models.Job
 
 	err := context.ShouldBindJSON(&job)
 	if err != nil {
-		context.JSON(http.StatusBadRequest, gin.H{"message": "could not parse data" + err.Error()})
+		context.JSON(http.StatusBadRequest, gin.H{"message": "could not parse job data"})
 		return
 	}
 
-	// Call Save() for saving job into database
 	job.Save()
 	context.JSON(http.StatusCreated, gin.H{"message": "job created", "job": job})
 }
@@ -44,7 +43,7 @@ func getJobs(context *gin.Context) {
 	// Get all jobs with filters and pagination
 	jobs, total, err := models.GetAllJobs(filterTitle, page, limit)
 	if err != nil {
-		context.JSON(http.StatusInternalServerError, gin.H{"message": "could not fetch jobs: " + err.Error()})
+		context.JSON(http.StatusInternalServerError, gin.H{"message": "could not fetch jobs"})
 		return
 	}
 
@@ -69,7 +68,7 @@ func getJob(context *gin.Context) {
 
 	job, err := models.GetJobByID(jobId)
 	if err != nil {
-		context.JSON(http.StatusInternalServerError, gin.H{"message": "could not fetch job" + err.Error()})
+		context.JSON(http.StatusInternalServerError, gin.H{"message": "could not fetch job"})
 		return
 	}
 
@@ -77,37 +76,28 @@ func getJob(context *gin.Context) {
 }
 
 // Delete a job
-// func deleteJob(context *gin.Context) {
-// 	jobId, err := strconv.ParseInt(context.Param("id"), 10, 64)
+func deleteJob(context *gin.Context) {
+	jobId := context.Param("id")
 
-// 	if err != nil {
-// 		context.JSON(http.StatusBadRequest, gin.H{"message": "could not parse job id"})
-// 		return
-// 	}
-
-// 	job, err := models.GetJobByID(jobId)
-// 	if err != nil {
-// 		context.JSON(http.StatusInternalServerError, gin.H{"message": "could not fetch job"})
-// 		return
-// 	}
-
-// 	err = job.Delete()
-// 	if err != nil {
-// 		context.JSON(http.StatusInternalServerError, gin.H{"message": "could not delete job"})
-// 		return
-// 	}
-
-// 	context.JSON(http.StatusOK, gin.H{"message": "job deleted successfully!"})
-// }
-
-// Update job
-func updateJob(context *gin.Context) {
-	// Parse job ID from the URL
-	jobId, err := strconv.ParseInt(context.Param("id"), 10, 64)
+	job, err := models.GetJobByID(jobId)
 	if err != nil {
-		context.JSON(http.StatusBadRequest, gin.H{"message": "invalid job id."})
+		context.JSON(http.StatusInternalServerError, gin.H{"message": "could not fetch job"})
 		return
 	}
+
+	err = job.Delete()
+	if err != nil {
+		context.JSON(http.StatusInternalServerError, gin.H{"message": "could not delete job"})
+		return
+	}
+
+	context.JSON(http.StatusOK, gin.H{"message": "job deleted successfully"})
+}
+
+// Update a job
+func updateJob(context *gin.Context) {
+	// Extract job ID from the URL
+	jobId := context.Param("id")
 
 	// Parse the request body to get the updated job data
 	var updatedJob models.Job
@@ -116,14 +106,14 @@ func updateJob(context *gin.Context) {
 		return
 	}
 
-	// Serialize the Duties field to JSON for database storage
+	// Convert Duties field to JSON for database storage
 	dutiesJSON, err := json.Marshal(updatedJob.Duties)
 	if err != nil {
 		context.JSON(http.StatusInternalServerError, gin.H{"message": "error processing duties field"})
 		return
 	}
 
-	// Update job in DB
+	// Update job in the database
 	err = models.UpdateJobByID(jobId, updatedJob, string(dutiesJSON))
 	if err != nil {
 		context.JSON(http.StatusInternalServerError, gin.H{"message": "could not update job"})

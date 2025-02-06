@@ -10,22 +10,22 @@ import (
 )
 
 type Job struct {
-	ID          string   `json:"id"` // UUID instead of int64
+	ID          string   `json:"id"`
 	Title       string   `json:"title" binding:"required"`
 	Description string   `json:"description" binding:"required"`
 	Location    string   `json:"location" binding:"required"`
 	Salary      string   `json:"salary" binding:"required"`
 	Duties      []string `json:"duties" binding:"required"`
 	Url         string   `json:"url"`
-	CreatedAt   string   `json:"created_at"` // Store timestamp as a string
+	CreatedAt   string   `json:"created_at"`
 }
 
 // Save job into the database
 func (job *Job) Save() error {
-	// Generate a new UUID for job ID
+	// Generate new UUID for job ID
 	job.ID = uuid.New().String()
 
-	// Serialize the Duties field to JSON
+	// Convert the Duties field to JSON
 	dutiesJSON, err := json.Marshal(job.Duties)
 	if err != nil {
 		return err
@@ -56,6 +56,7 @@ func (job *Job) Save() error {
 		job.Url,
 		job.CreatedAt,
 	)
+
 	return err
 }
 
@@ -79,7 +80,7 @@ func GetAllJobs(filterTitle string, page, limit int) ([]Job, int, error) {
 		return nil, 0, err
 	}
 
-	// Add pagination and sorting by created_at DESC
+	// Add pagination and sort by created_at DESC
 	offset := (page - 1) * limit
 	query += " ORDER BY created_at DESC LIMIT ? OFFSET ?"
 	args = append(args, limit, offset)
@@ -93,7 +94,6 @@ func GetAllJobs(filterTitle string, page, limit int) ([]Job, int, error) {
 
 	var jobs []Job
 
-	// Parse rows into the Job struct
 	for rows.Next() {
 		var job Job
 		var dutiesJSON string
@@ -123,15 +123,14 @@ func GetAllJobs(filterTitle string, page, limit int) ([]Job, int, error) {
 	return jobs, total, nil
 }
 
-// Get a single job
-func GetJobByID(jobId string) (Job, error) {
+// Get a job by ID
+func GetJobByID(id string) (Job, error) {
 	var job Job
 	var dutiesJSON string
 
 	query := "SELECT * FROM jobs WHERE id =?"
-	row := db.DB.QueryRow(query, jobId)
+	row := db.DB.QueryRow(query, id)
 
-	// Scan the result into variables
 	err := row.Scan(
 		&job.ID,
 		&job.Title,
@@ -145,7 +144,7 @@ func GetJobByID(jobId string) (Job, error) {
 		return job, err
 	}
 
-	// Deserialize Duties field from JSON to []string
+	// Convert Duties field from JSON to []string
 	err = json.Unmarshal([]byte(dutiesJSON), &job.Duties)
 	if err != nil {
 		return job, err
@@ -155,21 +154,22 @@ func GetJobByID(jobId string) (Job, error) {
 }
 
 // Delete a job
-// func (job Job) Delete() error {
-// 	query := "DELETE FROM jobs WHERE id = ?"
-// 	stmt, err := db.DB.Prepare(query)
+func (job Job) Delete() error {
+	query := "DELETE FROM jobs WHERE id = ?"
+	stmt, err := db.DB.Prepare(query)
 
-// 	if err != nil {
-// 		return err
-// 	}
-// 	defer stmt.Close()
+	if err != nil {
+		return err
+	}
+	defer stmt.Close()
 
-// 	_, err = stmt.Exec(job.ID)
+	_, err = stmt.Exec(job.ID)
 
-// 	return err
-// }
+	return err
+}
 
-func UpdateJobByID(id int64, updatedJob Job, dutiesJSON string) error {
+// Update a job by ID
+func UpdateJobByID(id string, updatedJob Job, dutiesJSON string) error {
 	query := `
 		UPDATE jobs
 		SET title = ?, description = ?, location = ?, salary = ?, duties = ?, url = ?
