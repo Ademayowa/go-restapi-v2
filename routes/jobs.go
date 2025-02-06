@@ -2,10 +2,11 @@ package routes
 
 import (
 	"encoding/json"
-	"job-board/models"
 	"math"
 	"net/http"
 	"strconv"
+
+	"github.com/Ademayowa/go-restapi-v2/models"
 
 	"github.com/gin-gonic/gin"
 )

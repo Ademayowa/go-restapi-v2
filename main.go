@@ -1,11 +1,10 @@
-// main.go
-
 package main
 
 import (
-	"job-board/db"
-	"job-board/routes"
 	"os"
+
+	"github.com/Ademayowa/go-restapi-v2/db"
+	"github.com/Ademayowa/go-restapi-v2/routes"
 
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
@@ -14,7 +13,7 @@ import (
 func main() {
 	// Load environment variables from .env file
 	if err := godotenv.Load(); err != nil {
-		println("No env file found. Using default environment variables")
+		println("No .env file found, using default environment variables")
 	}
 
 	db.InitDB()
@@ -26,5 +25,6 @@ func main() {
 
 	server := gin.Default()
 	routes.RegisterRoutes(server)
+
 	server.Run(":" + port)
 }

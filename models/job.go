@@ -2,9 +2,10 @@ package models
 
 import (
 	"encoding/json"
-	"job-board/db"
 	"strings"
 	"time"
+
+	"github.com/Ademayowa/go-restapi-v2/db"
 
 	"github.com/google/uuid"
 )
@@ -60,7 +61,7 @@ func (job *Job) Save() error {
 	return err
 }
 
-// Get all jobs (optional filtering by job title)
+// Get all jobs (with optional filtering by job title)
 func GetAllJobs(filterTitle string, page, limit int) ([]Job, int, error) {
 	query := "SELECT * FROM jobs WHERE 1=1"
 	args := []interface{}{}
