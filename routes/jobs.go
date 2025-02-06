@@ -35,9 +35,9 @@ func getJobs(context *gin.Context) {
 		page = 1 // Default to page 1 if invalid
 	}
 
-	limit, err := strconv.Atoi(context.DefaultQuery("limit", "6"))
+	limit, err := strconv.Atoi(context.DefaultQuery("limit", "10"))
 	if err != nil || limit < 1 {
-		limit = 6 // Default to 6 items per page if invalid
+		limit = 6 // Default to 10 items per page if invalid
 	}
 
 	// Get all jobs with filters and pagination

@@ -1,17 +1,21 @@
-DELETE http://localhost:8080/jobs/2e9abbad-c109-47cc-a60e-3ad31f47b78b
+PUT http://localhost:8080/jobs/cebc1a9f-9db0-4d7e-8be1-dfb191ca4399
 content-type: application/json
 
 {
-  "title": "DevOps Engineer",
-  "description": "HarfangLab is a cybersecurity scale-up, and we have developed an Endpoint Detection and Response (EDR) software to detect and mitigate modern cyberattacks on a company's workstations and servers. Our algorithms detect abnormal behaviors and generate security alerts or block program execution.",
-  "location": "France",
-  "salary": "60k",
+  "title": "Site Reliability Engineer",
+  "description": "The SRE role involves close partnership with our development teams to design and build infrastructure that supports our goal: to be the best platform for authoring, processing, and distributing content worldwide in real time. The role addresses the security, stability, and performance needs of our platform that our customers have come to expect.",
+  "location": "Europe",
+  "salary": "200k",
   "duties": [
-    "Build and Improve the Product: Add new features and enhancements to make it even better.",
-    "Optimize CI/CD Pipelines: Collaborate with developers to ensure the pipeline is as efficient as possible, using GitLab-CI, Kubernetes (K8s), Helm, KubeVirt, and a suite of complementary tools.",
-    "Automate Client On-Premise Installations: Help with initial deployments and develop automation to make subsequent setups seamless. We use Ansible, k3s, Helm, and some custom Python code.",
-    "Monitor and Maintain Internal Cloud and Infrastructure: Ensure smooth operation, fix issues, and automate repairs across our internal cloud stacks.",
-    "R&D for New Tools and Frameworks: Stay ahead of the curve by researching and experimenting with new technologies that could benefit our team."
+    "Experience with SRE/DevOps tools, processes, and culture.",
+    "5+ years of experience as part of an SRE on-call rotation.",
+    "Analytical approach to designing, diagnosing, and optimizing infrastructure.",
+    "Experience with managing scalable, highly available, cloud-based applications.",
+    "Experience with managing and optimizing databases. We use PostgreSQL.",
+    "Experience with infrastructure as code. We use Terraform.",
+    "Experience programming. We use Python, Go, Typescript.",
+    "Experience building CI/CD pipelines.",
+    "Experience with an observability stack like Prometheus." 
   ],
-  "url": "https://harfanglab-1666711819.teamtailor.com/jobs/5349829-devops-engineer"
+  "url": "https://jobs.ashbyhq.com/sanity/741b1bbf-4444-4e10-9eca-a5e489b6cdfd"
 }
