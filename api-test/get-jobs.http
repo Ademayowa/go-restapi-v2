@@ -1,21 +1,19 @@
-PUT http://localhost:8080/jobs/cebc1a9f-9db0-4d7e-8be1-dfb191ca4399
+PUT http://localhost:8080/jobs/b9178b32-1f0e-4e48-9417-fcc548b56f29
 content-type: application/json
 
 {
-  "title": "Site Reliability Engineer",
-  "description": "The SRE role involves close partnership with our development teams to design and build infrastructure that supports our goal: to be the best platform for authoring, processing, and distributing content worldwide in real time. The role addresses the security, stability, and performance needs of our platform that our customers have come to expect.",
-  "location": "Europe",
-  "salary": "200k",
+  "title": "Senior Golang Engineer",
+  "description": "For Sky: Children of the Light, that game company has developed several backend services capable of handling a massive amount of concurrent users. Providing a reliable and low latency experience for our players is a priority. We build, test, and maintain systems for account and login, user-generated content, and various persistent gameplay systems.",
+  "location": "United States",
+  "salary": "95k",
   "duties": [
-    "Experience with SRE/DevOps tools, processes, and culture.",
-    "5+ years of experience as part of an SRE on-call rotation.",
-    "Analytical approach to designing, diagnosing, and optimizing infrastructure.",
-    "Experience with managing scalable, highly available, cloud-based applications.",
-    "Experience with managing and optimizing databases. We use PostgreSQL.",
-    "Experience with infrastructure as code. We use Terraform.",
-    "Experience programming. We use Python, Go, Typescript.",
-    "Experience building CI/CD pipelines.",
-    "Experience with an observability stack like Prometheus." 
+    "Have 5+ years experience working on the backend for an MMO or high-volume, low-latency web services.",
+    "Have deep experience with both relational and non-relational databases (PostgreSQL, MongoDB, Redis).",
+    "Be comfortable deploying containerized services to a kubernetes cluster.",
+    "Be familiar with both microservice and monolith architectures.",
+    "Be familiar with creating unit tests, stress tests, and integration tests.",
+    "Have experience with multiple cloud providers like AWS or GCP.",
+    "Have experience with Kubernetes, Helm, and Docker"
   ],
-  "url": "https://jobs.ashbyhq.com/sanity/741b1bbf-4444-4e10-9eca-a5e489b6cdfd"
+  "url": "https://jobs.ashbyhq.com/thatgamecompany/de259908-5ad8-4004-a1da-3872842274d5"
 }
