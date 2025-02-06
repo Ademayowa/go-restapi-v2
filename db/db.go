@@ -25,13 +25,14 @@ func InitDB() {
 func createTable() {
 	createJobsTable := `
 	CREATE TABLE IF NOT EXISTS jobs (
-		id INTEGER PRIMARY KEY AUTOINCREMENT,
+		id TEXT PRIMARY KEY,
 		title TEXT NOT NULL,
     description TEXT NOT NULL,
 		location TEXT NOT NULL,
 		salary TEXT NOT NULL,
 		duties TEXT NOT NULL,
-		url TEXT NOT NULL
+		url TEXT NOT NULL,
+		created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 	)
 	`
 	_, err := DB.Exec(createJobsTable)

@@ -4,23 +4,36 @@ import (
 	"encoding/json"
 	"job-board/db"
 	"strings"
+	"time"
+
+	"github.com/google/uuid"
 )
 
 type Job struct {
-	ID          int64    `json:"id"`
+	ID          string   `json:"id"` // UUID instead of int64
 	Title       string   `json:"title" binding:"required"`
 	Description string   `json:"description" binding:"required"`
 	Location    string   `json:"location" binding:"required"`
 	Salary      string   `json:"salary" binding:"required"`
 	Duties      []string `json:"duties" binding:"required"`
 	Url         string   `json:"url"`
+	CreatedAt   string   `json:"created_at"` // Store timestamp as a string
 }
 
-// Save job into databse
-func (job Job) Save() error {
+// Save job into the database
+func (job *Job) Save() error {
+	// Generate a new UUID for job ID
+	job.ID = uuid.New().String()
+
+	// Serialize the Duties field to JSON
+	dutiesJSON, err := json.Marshal(job.Duties)
+	if err != nil {
+		return err
+	}
+
 	query := `
-		INSERT INTO jobs(title, description, location, salary, duties, url)
-		VALUES(?, ?, ?, ?, ?, ?)
+		INSERT INTO jobs(id, title, description, location, salary, duties, url, created_at)
+		VALUES(?, ?, ?, ?, ?, ?, ?, ?)
 	`
 
 	sqlStmt, err := db.DB.Prepare(query)
@@ -29,22 +42,20 @@ func (job Job) Save() error {
 	}
 	defer sqlStmt.Close()
 
-	// Serialize the Duties field to JSON
-	dutiesJSON, err := json.Marshal(job.Duties)
-	if err != nil {
-		return err
-	}
+	// Set CreatedAt timestamp
+	job.CreatedAt = time.Now().Format("2006-01-02 15:04:05")
 
 	// Execute the SQL statement
-	result, err := sqlStmt.Exec(job.Title, job.Description, job.Location, job.Salary, string(dutiesJSON), job.Url)
-	if err != nil {
-		return err
-	}
-
-	// Add the auto generated ID from the database
-	id, err := result.LastInsertId()
-	job.ID = id
-
+	_, err = sqlStmt.Exec(
+		job.ID,
+		job.Title,
+		job.Description,
+		job.Location,
+		job.Salary,
+		string(dutiesJSON),
+		job.Url,
+		job.CreatedAt,
+	)
 	return err
 }
 
@@ -68,9 +79,9 @@ func GetAllJobs(filterTitle string, page, limit int) ([]Job, int, error) {
 		return nil, 0, err
 	}
 
-	// Add pagination
+	// Add pagination and sorting by created_at DESC
 	offset := (page - 1) * limit
-	query += " LIMIT ? OFFSET ?"
+	query += " ORDER BY created_at DESC LIMIT ? OFFSET ?"
 	args = append(args, limit, offset)
 
 	// Fetch paginated jobs
@@ -95,6 +106,7 @@ func GetAllJobs(filterTitle string, page, limit int) ([]Job, int, error) {
 			&job.Salary,
 			&dutiesJSON,
 			&job.Url,
+			&job.CreatedAt,
 		)
 		if err != nil {
 			return nil, 0, err
@@ -112,42 +124,50 @@ func GetAllJobs(filterTitle string, page, limit int) ([]Job, int, error) {
 }
 
 // Get a single job
-func GetJobByID(id int64) (*Job, error) {
-	query := "SELECT * FROM jobs WHERE id =?"
-	row := db.DB.QueryRow(query, id)
-
+func GetJobByID(jobId string) (Job, error) {
 	var job Job
 	var dutiesJSON string
 
+	query := "SELECT * FROM jobs WHERE id =?"
+	row := db.DB.QueryRow(query, jobId)
+
 	// Scan the result into variables
-	err := row.Scan(&job.ID, &job.Title, &job.Description, &job.Location, &job.Salary, &dutiesJSON, &job.Url)
+	err := row.Scan(
+		&job.ID,
+		&job.Title,
+		&job.Description,
+		&job.Location,
+		&job.Salary, &dutiesJSON,
+		&job.Url,
+		&job.CreatedAt,
+	)
 	if err != nil {
-		return nil, err
+		return job, err
 	}
 
 	// Deserialize Duties field from JSON to []string
 	err = json.Unmarshal([]byte(dutiesJSON), &job.Duties)
 	if err != nil {
-		return nil, err
+		return job, err
 	}
 
-	return &job, nil
+	return job, nil
 }
 
 // Delete a job
-func (job Job) Delete() error {
-	query := "DELETE FROM jobs WHERE id = ?"
-	stmt, err := db.DB.Prepare(query)
+// func (job Job) Delete() error {
+// 	query := "DELETE FROM jobs WHERE id = ?"
+// 	stmt, err := db.DB.Prepare(query)
 
-	if err != nil {
-		return err
-	}
-	defer stmt.Close()
+// 	if err != nil {
+// 		return err
+// 	}
+// 	defer stmt.Close()
 
-	_, err = stmt.Exec(job.ID)
+// 	_, err = stmt.Exec(job.ID)
 
-	return err
-}
+// 	return err
+// }
 
 func UpdateJobByID(id int64, updatedJob Job, dutiesJSON string) error {
 	query := `
