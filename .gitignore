@@ -75,3 +75,6 @@ __pycache__/
 
 # Dependency tools
 /go/pkg/mod/
+
+# API test directory
+/api-test/
