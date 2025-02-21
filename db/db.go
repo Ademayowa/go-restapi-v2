@@ -29,7 +29,7 @@ func createTable() {
 		title TEXT NOT NULL,
     description TEXT NOT NULL,
 		location TEXT NOT NULL,
-		salary TEXT NOT NULL,
+		salary FLOAT NOT NULL,
 		duties TEXT NOT NULL,
 		url TEXT NOT NULL,
 		created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP

@@ -17,7 +17,7 @@ func createJob(context *gin.Context) {
 
 	err := context.ShouldBindJSON(&job)
 	if err != nil {
-		context.JSON(http.StatusBadRequest, gin.H{"message": "could not parse job data"})
+		context.JSON(http.StatusBadRequest, gin.H{"error": "could not parse job data"})
 		return
 	}
 
@@ -44,7 +44,7 @@ func getJobs(context *gin.Context) {
 	// Get all jobs with filters and pagination
 	jobs, total, err := models.GetAllJobs(filterTitle, page, limit)
 	if err != nil {
-		context.JSON(http.StatusInternalServerError, gin.H{"message": "could not fetch jobs"})
+		context.JSON(http.StatusInternalServerError, gin.H{"error": "could not fetch jobs"})
 		return
 	}
 
@@ -69,7 +69,7 @@ func getJob(context *gin.Context) {
 
 	job, err := models.GetJobByID(jobId)
 	if err != nil {
-		context.JSON(http.StatusInternalServerError, gin.H{"message": "could not fetch job"})
+		context.JSON(http.StatusInternalServerError, gin.H{"error": "could not fetch job"})
 		return
 	}
 
@@ -82,13 +82,13 @@ func deleteJob(context *gin.Context) {
 
 	job, err := models.GetJobByID(jobId)
 	if err != nil {
-		context.JSON(http.StatusInternalServerError, gin.H{"message": "could not fetch job"})
+		context.JSON(http.StatusInternalServerError, gin.H{"error": "could not fetch job"})
 		return
 	}
 
 	err = job.Delete()
 	if err != nil {
-		context.JSON(http.StatusInternalServerError, gin.H{"message": "could not delete job"})
+		context.JSON(http.StatusInternalServerError, gin.H{"error": "could not delete job"})
 		return
 	}
 
@@ -103,23 +103,51 @@ func updateJob(context *gin.Context) {
 	// Parse the request body to get the updated job data
 	var updatedJob models.Job
 	if err := context.ShouldBindJSON(&updatedJob); err != nil {
-		context.JSON(http.StatusBadRequest, gin.H{"message": "invalid request body"})
+		context.JSON(http.StatusBadRequest, gin.H{"error": "invalid request body"})
 		return
 	}
 
 	// Convert Duties field to JSON for database storage
 	dutiesJSON, err := json.Marshal(updatedJob.Duties)
 	if err != nil {
-		context.JSON(http.StatusInternalServerError, gin.H{"message": "error processing duties field"})
+		context.JSON(http.StatusInternalServerError, gin.H{"error": "error processing duties field"})
 		return
 	}
 
 	// Update job in the database
 	err = models.UpdateJobByID(jobId, updatedJob, string(dutiesJSON))
 	if err != nil {
-		context.JSON(http.StatusInternalServerError, gin.H{"message": "could not update job"})
+		context.JSON(http.StatusInternalServerError, gin.H{"error": "could not update job"})
 		return
 	}
 
 	context.JSON(http.StatusOK, gin.H{"message": "job updated successfully"})
+}
+
+// Get jobs sorted by most recent
+func GetRecentJobs(context *gin.Context) {
+	limitParam := context.DefaultQuery("limit", "10")
+	limit, _ := strconv.Atoi(limitParam)
+
+	jobs, err := models.GetJobsSortedByRecent(limit)
+	if err != nil {
+		context.JSON(http.StatusInternalServerError, gin.H{"error": "failed to fetch recent jobs"})
+		return
+	}
+
+	context.JSON(http.StatusOK, jobs)
+}
+
+// Get jobs sorted by highest salary
+func GetHighestSalaryJobs(context *gin.Context) {
+	limitParam := context.DefaultQuery("limit", "10")
+	limit, _ := strconv.Atoi(limitParam)
+
+	jobs, err := models.GetJobsSortedBySalary(limit)
+	if err != nil {
+		context.JSON(http.StatusInternalServerError, gin.H{"error": "failed to fetch highest salary jobs"})
+		return
+	}
+
+	context.JSON(http.StatusOK, jobs)
 }

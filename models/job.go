@@ -15,7 +15,7 @@ type Job struct {
 	Title       string   `json:"title" binding:"required"`
 	Description string   `json:"description" binding:"required"`
 	Location    string   `json:"location" binding:"required"`
-	Salary      string   `json:"salary" binding:"required"`
+	Salary      float64  `json:"salary" binding:"required"`
 	Duties      []string `json:"duties" binding:"required"`
 	Url         string   `json:"url"`
 	CreatedAt   string   `json:"created_at"`
@@ -23,10 +23,8 @@ type Job struct {
 
 // Save job into the database
 func (job *Job) Save() error {
-	// Generate new UUID for job ID
 	job.ID = uuid.New().String()
 
-	// Convert the Duties field to JSON
 	dutiesJSON, err := json.Marshal(job.Duties)
 	if err != nil {
 		return err
@@ -43,10 +41,8 @@ func (job *Job) Save() error {
 	}
 	defer sqlStmt.Close()
 
-	// Set CreatedAt timestamp
 	job.CreatedAt = time.Now().Format("2006-01-02 15:04:05")
 
-	// Execute the SQL statement
 	_, err = sqlStmt.Exec(
 		job.ID,
 		job.Title,
@@ -81,9 +77,9 @@ func GetAllJobs(filterTitle string, page, limit int) ([]Job, int, error) {
 		return nil, 0, err
 	}
 
-	// Add pagination and sort by created_at DESC
+	// Add pagination
 	offset := (page - 1) * limit
-	query += " ORDER BY created_at DESC LIMIT ? OFFSET ?"
+	query += " LIMIT ? OFFSET ?"
 	args = append(args, limit, offset)
 
 	// Fetch paginated jobs
@@ -187,4 +183,88 @@ func UpdateJobByID(id string, updatedJob Job, dutiesJSON string) error {
 	)
 
 	return err
+}
+
+// Get jobs sorted by most recent
+func GetJobsSortedByRecent(limit int) ([]Job, error) {
+	query := "SELECT * FROM jobs ORDER BY created_at DESC LIMIT ?"
+
+	rows, err := db.DB.Query(query, limit)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var jobs []Job
+
+	for rows.Next() {
+		var job Job
+		var dutiesJSON string
+
+		err := rows.Scan(
+			&job.ID,
+			&job.Title,
+			&job.Description,
+			&job.Location,
+			&job.Salary,
+			&dutiesJSON,
+			&job.Url,
+			&job.CreatedAt,
+		)
+
+		if err != nil {
+			return nil, err
+		}
+
+		err = json.Unmarshal([]byte(dutiesJSON), &job.Duties)
+		if err != nil {
+			return nil, err
+		}
+
+		jobs = append(jobs, job)
+	}
+
+	return jobs, nil
+}
+
+// Get jobs sorted by highest salary
+func GetJobsSortedBySalary(limit int) ([]Job, error) {
+	query := "SELECT * FROM jobs ORDER BY salary DESC LIMIT ?"
+
+	rows, err := db.DB.Query(query, limit)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var jobs []Job
+
+	for rows.Next() {
+		var job Job
+		var dutiesJSON string
+
+		err := rows.Scan(
+			&job.ID,
+			&job.Title,
+			&job.Description,
+			&job.Location,
+			&job.Salary,
+			&dutiesJSON,
+			&job.Url,
+			&job.CreatedAt,
+		)
+
+		if err != nil {
+			return nil, err
+		}
+
+		err = json.Unmarshal([]byte(dutiesJSON), &job.Duties)
+		if err != nil {
+			return nil, err
+		}
+
+		jobs = append(jobs, job)
+	}
+
+	return jobs, nil
 }
