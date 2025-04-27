@@ -28,7 +28,7 @@ git clone https://github.com/Ademayowa/go-restapi-v2
 Install the project dependencies:
 
 ```bash
-go mod tidy
+go mod download
 ```
 
 **Running the Project**
