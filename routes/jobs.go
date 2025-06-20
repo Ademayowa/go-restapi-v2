@@ -152,8 +152,8 @@ func GetHighestSalaryJobs(context *gin.Context) {
 	context.JSON(http.StatusOK, jobs)
 }
 
-// ShareJob returns a shareable link for a job
-func ShareJob(context *gin.Context) {
+// ShareJobLink returns a shareable link for a job
+func ShareJobLink(context *gin.Context) {
 	jobId := context.Param("id")
 
 	// Check if job exists
@@ -169,13 +169,13 @@ func ShareJob(context *gin.Context) {
 	if context.Request.TLS != nil {
 		scheme = "https"
 	}
-	
+
 	// Generate a shareable link to the job details page
-	shareableLink := scheme + "://" + baseUrl + "/jobs/" + jobId
+	shareableLink := scheme + "://" + baseUrl + "/job/" + jobId
 
 	context.JSON(http.StatusOK, gin.H{
-		"success": true,
+		"success":   true,
 		"shareLink": shareableLink,
-		"job": job,
+		"job":       job,
 	})
 }
