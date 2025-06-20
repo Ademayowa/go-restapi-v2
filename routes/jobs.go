@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"strconv"
 
+	"github.com/Ademayowa/go-restapi-v2/constants"
 	"github.com/Ademayowa/go-restapi-v2/models"
 
 	"github.com/gin-gonic/gin"
@@ -157,25 +158,26 @@ func ShareJobLink(context *gin.Context) {
 	jobId := context.Param("id")
 
 	// Check if job exists
-	job, err := models.GetJobByID(jobId)
+	_, err := models.GetJobByID(jobId)
 	if err != nil {
 		context.JSON(http.StatusInternalServerError, gin.H{"error": "could not fetch job"})
 		return
 	}
 
-	// Create a shareable link with the job ID
 	baseUrl := context.Request.Host
+	if baseUrl == "" {
+		context.JSON(http.StatusInternalServerError, gin.H{"error": "could not determine host URL"})
+		return
+	}
+
+	// Check if the app runs on http or https
 	scheme := "http"
 	if context.Request.TLS != nil {
 		scheme = "https"
 	}
 
 	// Generate a shareable link to the job details page
-	shareableLink := scheme + "://" + baseUrl + "/job/" + jobId
+	shareableLink := scheme + "://" + baseUrl + constants.JobDetailsPage + "/" + jobId
 
-	context.JSON(http.StatusOK, gin.H{
-		"success":   true,
-		"shareLink": shareableLink,
-		"job":       job,
-	})
+	context.JSON(http.StatusOK, gin.H{"shareLink": shareableLink})
 }
