@@ -151,3 +151,31 @@ func GetHighestSalaryJobs(context *gin.Context) {
 
 	context.JSON(http.StatusOK, jobs)
 }
+
+// ShareJob returns a shareable link for a job
+func ShareJob(context *gin.Context) {
+	jobId := context.Param("id")
+
+	// Check if job exists
+	job, err := models.GetJobByID(jobId)
+	if err != nil {
+		context.JSON(http.StatusInternalServerError, gin.H{"error": "could not fetch job"})
+		return
+	}
+
+	// Create a shareable link with the job ID
+	baseUrl := context.Request.Host
+	scheme := "http"
+	if context.Request.TLS != nil {
+		scheme = "https"
+	}
+	
+	// Generate a shareable link to the job details page
+	shareableLink := scheme + "://" + baseUrl + "/jobs/" + jobId
+
+	context.JSON(http.StatusOK, gin.H{
+		"success": true,
+		"shareLink": shareableLink,
+		"job": job,
+	})
+}

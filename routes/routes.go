@@ -21,11 +21,14 @@ func RegisterRoutes(server *gin.Engine) {
 	// Define routes
 	server.GET("/jobs", getJobs)
 	server.POST("/jobs", createJob)
+
+	// Specialized routes should come before parameterized routes
+	server.GET("/jobs/recent", GetRecentJobs)
+	server.GET("/jobs/highest-salary", GetHighestSalaryJobs)
+
+	// Parameterized routes
 	server.GET("/jobs/:id", getJob)
 	server.DELETE("/jobs/:id", deleteJob)
 	server.PUT("/jobs/:id", updateJob)
-
-	server.GET("/jobs/recent", GetRecentJobs)
-	server.GET("/jobs/highest-salary", GetHighestSalaryJobs)
 
 }
