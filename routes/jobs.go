@@ -169,15 +169,13 @@ func ShareJobLink(context *gin.Context) {
 		context.JSON(http.StatusInternalServerError, gin.H{"error": "could not determine host URL"})
 		return
 	}
-
 	// Check if the app runs on http or https
 	scheme := "http"
 	if context.Request.TLS != nil {
 		scheme = "https"
 	}
-
 	// Generate a shareable link to the job details page
 	shareableLink := scheme + "://" + baseUrl + constants.JobDetailsPage + "/" + jobId
 
-	context.JSON(http.StatusOK, gin.H{"shareLink": shareableLink})
+	context.JSON(http.StatusOK, shareableLink)
 }
