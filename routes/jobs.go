@@ -157,15 +157,15 @@ func GetHighestSalaryJobs(context *gin.Context) {
 func ShareJobLink(context *gin.Context) {
 	jobId := context.Param("id")
 
-	// Check if job exists
+	// Check if job exists, not sure we need this
 	_, err := models.GetJobByID(jobId)
 	if err != nil {
 		context.JSON(http.StatusInternalServerError, gin.H{"error": "could not fetch job"})
 		return
 	}
 
-	baseUrl := context.Request.Host
-	if baseUrl == "" {
+	baseURL := context.Request.Host
+	if baseURL == "" {
 		context.JSON(http.StatusInternalServerError, gin.H{"error": "could not determine host URL"})
 		return
 	}
@@ -175,7 +175,7 @@ func ShareJobLink(context *gin.Context) {
 		scheme = "https"
 	}
 	// Generate a shareable link to the job details page
-	shareableLink := scheme + "://" + baseUrl + constants.JobDetailsPage + "/" + jobId
+	shareableLink := scheme + "://" + baseURL + constants.JobDetailsPage + "/" + jobId
 
 	context.JSON(http.StatusOK, shareableLink)
 }

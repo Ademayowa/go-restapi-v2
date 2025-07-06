@@ -3,7 +3,7 @@ package db
 import (
 	"database/sql"
 
-	_ "github.com/glebarez/go-sqlite"
+	_ "modernc.org/sqlite"
 )
 
 var DB *sql.DB
@@ -13,7 +13,6 @@ func InitDB() {
 	DB, err = sql.Open("sqlite", "job.db")
 	if err != nil {
 		panic("could not connect to database")
-
 	}
 
 	DB.SetMaxOpenConns(10)
