@@ -10,6 +10,9 @@ import (
 	"github.com/google/uuid"
 )
 
+// DateFormat is the standard date format used throughout the application
+const DateFormat = time.RFC3339
+
 type Job struct {
 	ID          string   `json:"id"`
 	Title       string   `json:"title" binding:"required"`
@@ -19,6 +22,28 @@ type Job struct {
 	Duties      []string `json:"duties" binding:"required"`
 	Url         string   `json:"url"`
 	CreatedAt   string   `json:"created_at"`
+	Expired     bool     `json:"expired"`
+}
+
+// IsExpired checks if a job is expired
+func (job *Job) IsExpired() bool {
+	return job.DaysToExpiration() <= 0
+}
+
+// DaysToExpiration returns the number of days until job expires
+// Positive: days remaining, Zero: expires today, Negative: days since expiration
+func (job *Job) DaysToExpiration() int {
+	createdAt, err := time.Parse(DateFormat, job.CreatedAt)
+	if err != nil {
+		return 0
+	}
+
+	expirationDate := createdAt.AddDate(0, 0, 14) // 14 days after creation
+
+	// Calculate days remaining
+	now := time.Now()
+	duration := expirationDate.Sub(now)
+	return int(duration.Hours() / 24)
 }
 
 // Save job into the database
@@ -41,7 +66,7 @@ func (job *Job) Save() error {
 	}
 	defer sqlStmt.Close()
 
-	job.CreatedAt = time.Now().Format("2006-01-02 15:04:05")
+	job.CreatedAt = time.Now().Format(DateFormat)
 
 	_, err = sqlStmt.Exec(
 		job.ID,
@@ -114,6 +139,9 @@ func GetAllJobs(filterTitle string, page, limit int) ([]Job, int, error) {
 			return nil, 0, err
 		}
 
+		// Check if job is expired
+		job.Expired = job.IsExpired()
+
 		jobs = append(jobs, job)
 	}
 
@@ -146,6 +174,9 @@ func GetJobByID(id string) (Job, error) {
 	if err != nil {
 		return job, err
 	}
+
+	// Check if job is expired
+	job.Expired = job.IsExpired()
 
 	return job, nil
 }
@@ -221,6 +252,9 @@ func GetJobsSortedByRecent(limit int) ([]Job, error) {
 			return nil, err
 		}
 
+		// Check if job is expired
+		job.Expired = job.IsExpired()
+
 		jobs = append(jobs, job)
 	}
 
@@ -262,6 +296,9 @@ func GetJobsSortedBySalary(limit int) ([]Job, error) {
 		if err != nil {
 			return nil, err
 		}
+
+		// Check if job is expired
+		job.Expired = job.IsExpired()
 
 		jobs = append(jobs, job)
 	}
