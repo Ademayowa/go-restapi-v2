@@ -18,7 +18,7 @@ func createJob(context *gin.Context) {
 
 	err := context.ShouldBindJSON(&job)
 	if err != nil {
-		context.JSON(http.StatusBadRequest, gin.H{"error": "could not parse job data"})
+		context.JSON(http.StatusBadRequest, gin.H{"error": "could not parse job data " + err.Error()})
 		return
 	}
 
